@@ -12,14 +12,25 @@ class StockRow extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: {}
+      price: null,
+      date: null,
+      time:null,
+      dollar_change: null,
+      percent_change: null
+
+
     }
   }
 
   applyData(data) {
     this.setState({
-     data: data
+    price: data.price,
+    date: data.date,
+    time: data.time
   })
+    stock.getYesterdaysClose(this.props.ticker, data.date, (data) => {
+      console.log(data)
+    })
   }
 
   componentDidMount() {
@@ -30,9 +41,11 @@ class StockRow extends Component {
   render() {
     return (
       <li className = "list-group-item">
-       <b>{this.props.ticker}</b> ${this.state.data.price}
+       <b>{this.props.ticker}</b> ${this.state.price}
        <span className = "change" style = {changeStyle}>
-        +12.34(5.3%)
+       {this.state.dollar_change}
+       {this.state.percent_change}
+
        </span>
     </li>
 
