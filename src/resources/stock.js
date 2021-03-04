@@ -30,6 +30,11 @@ getYesterdaysClose: (ticker, date, callback) => {
   .then((data) => callback(stock.formatPriceData(data)))
 },
 yesterdaysCloseURL: (ticker, date) => {
+
+// var today = new Date(date).toISOString().split('T')[0].replace(/-/g, '')
+
+// console.log(today)
+
  return  `${iex.base_url}/stock/${ticker}/intraday-prices?chartLast=1&exactDate=20210223&token=${iex.api_token}`
 }
 
