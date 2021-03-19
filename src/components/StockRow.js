@@ -29,13 +29,15 @@ class StockRow extends Component {
 
   }
   applyData(data) {
+
+    const formattedPrice = (data.price == undefined ) ? null: data.price.toFixed(2)
     this.setState({
-    price: data.price,
+    price: formattedPrice,
     date: data.date,
     time: data.time
   })
-    stock.getYesterdaysClose(this.props.ticker, data.date, (yesterday) => {
-      console.log(this.props.ticker, yesterday)
+    stock.getYesterdaysClose(this.props.ticker, this.props.lastTradingDate, (yesterday) => {
+
       const dollar_change = (data.price - yesterday.price).toFixed(2);
       const percent_change = (100 * dollar_change / yesterday.price).toFixed(2);
       this.setState({
@@ -48,6 +50,10 @@ class StockRow extends Component {
   componentDidMount() {
     // query the API
     stock.latestPrice(this.props.ticker, this.applyData.bind(this))
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.lastTradingDate)
   }
 
   render() {
